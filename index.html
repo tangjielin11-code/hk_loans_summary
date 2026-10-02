@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hong Kong Loan Composition by Economic Use – End-June 2026</title>
+<script>
+(function(){
+  var h = location.hash.replace("#", "");
+  if (h === "en" || h === "tc") document.documentElement.dataset.lang = h;
+})();
+</script>
+<style>
+
+  :root{
+    --navy:#0B2545; --ink:#1d2733; --muted:#5f6b7a; --line:#dfe3e8; --bg:#f4f6f9;
+    --prop:#1F4E79; --tf:#E07A1F; --mfg:#2A9D8F; --ws:#7FB069; --oth:#c3cad4; --out:#e6e9ee;
+    --up:#1a7f45; --down:#c0392b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;background:#2b2f36;overflow:hidden}
+  body{font-family:"Helvetica Neue",Helvetica,Arial,"PingFang HK","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+  .langbar{
+    position:fixed;top:0;left:0;right:0;height:40px;z-index:20;
+    display:flex;align-items:center;justify-content:flex-end;gap:2px;
+    padding:0 16px;background:#1a1e24;color:#c5d0dc;
+    font-size:13px;letter-spacing:.2px;
+  }
+  .langbar button{
+    border:0;background:transparent;color:#c5d0dc;font:inherit;cursor:pointer;
+    padding:4px 10px;border-radius:999px;
+  }
+  .langbar button:hover{color:#fff}
+  .langbar .sep{color:#7d8b9c;user-select:none}
+  html[data-lang="en"] #btn-en,
+  html[data-lang="tc"] #btn-tc{background:#fff;color:var(--navy);font-weight:700}
+  .slide{position:absolute;left:50%;top:calc(40px + (100% - 40px) / 2);width:1280px;height:720px;background:#fff;
+    transform-origin:center center;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+  html[data-lang="en"] #slide-tc,
+  html[data-lang="tc"] #slide-en{display:none !important}
+  .en{font-family:"Helvetica Neue",Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif}
+  .tc{font-family:"PingFang HK","PingFang TC","Microsoft JhengHei","Helvetica Neue",Arial,sans-serif}
+
+  header{background:var(--navy);color:#fff;padding:18px 32px 16px;display:flex;justify-content:space-between;align-items:center}
+  .en header h1{font-size:23px;font-weight:700;letter-spacing:.2px}
+  .tc header h1{font-size:24px;font-weight:700;letter-spacing:.5px}
+  .en header .sub{font-size:12.5px;color:#b9c6d8;margin-top:4px}
+  .tc header .sub{font-size:12.5px;color:#b9c6d8;margin-top:5px}
+  .kpis{display:flex;gap:10px}
+  .kpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 12px}
+  .en .kpi{min-width:118px}
+  .tc .kpi{min-width:122px}
+  .en .kpi .l{font-size:10.5px;color:#b9c6d8;text-transform:uppercase;letter-spacing:.4px}
+  .tc .kpi .l{font-size:11px;color:#b9c6d8}
+  .kpi .v{font-size:19px;font-weight:700;margin-top:2px}
+  .kpi .d{font-size:11px;color:#cfe0f2}
+  .kpi .d b{color:#8fe3b0}
+
+  main{flex:1;display:grid;grid-template-columns:712px 1fr;gap:20px;padding:16px 32px 0}
+  .panel h2{color:var(--navy);font-weight:700;border-left:4px solid var(--tf);padding-left:8px;margin-bottom:10px}
+  .en .panel h2{font-size:14px}
+  .tc .panel h2{font-size:14.5px}
+  .panel h2 span{font-weight:400;color:var(--muted);font-size:12px}
+
+  .brk-top{display:flex;color:var(--muted);margin-bottom:3px}
+  .en .brk-top{font-size:11px}
+  .tc .brk-top{font-size:11.5px}
+  .brk-top div{border-top:2px solid #9aa5b3;padding-top:2px;text-align:center}
+  .brk-top div:first-child{margin-right:3px}
+  .bar{display:flex;height:46px;border-radius:4px;overflow:hidden}
+  .bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-align:center}
+  .en .bar div{font-size:12px;line-height:1.15}
+  .tc .bar div{font-size:12.5px;line-height:1.2}
+  .bar .s-oth{color:#3b4654}.bar .s-out{color:#3b4654;background:repeating-linear-gradient(45deg,#e6e9ee 0 6px,#d9dde3 6px 12px)}
+  .brk-bot{position:relative;height:34px}
+  .brk-bot .b{position:absolute;left:30.33%;width:10.30%;top:4px;border:2px solid var(--tf);border-top:none;height:8px}
+  .brk-bot .t{position:absolute;top:14px;color:var(--tf);font-weight:700;white-space:nowrap}
+  .en .brk-bot .t{left:26%;font-size:11.5px}
+  .tc .brk-bot .t{left:27%;font-size:12px}
+
+  table{width:100%;border-collapse:collapse}
+  .en table{font-size:12.5px}
+  .tc table{font-size:13px}
+  th{color:var(--muted);font-weight:600;text-align:right;padding:5px 6px;border-bottom:1.5px solid var(--navy)}
+  .en th{font-size:10.5px;text-transform:uppercase;letter-spacing:.3px}
+  .tc th{font-size:11.5px}
+  th:first-child{text-align:left}
+  td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  td:first-child{text-align:left;font-weight:600}
+  .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+  tr.sub td{color:var(--muted);padding:3px 6px}
+  .en tr.sub td{font-size:11.5px}
+  .tc tr.sub td{font-size:12px}
+  tr.sub td:first-child{font-weight:400;padding-left:24px}
+  .shr{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+  .shr i{display:inline-block;height:8px;border-radius:2px}
+  .up{color:var(--up);font-weight:700}.down{color:var(--down);font-weight:700}.flat{color:var(--muted);font-weight:700}
+  .note-oth{color:var(--muted);margin-top:6px}
+  .en .note-oth{font-size:10.5px;line-height:1.4}
+  .tc .note-oth{font-size:11px;line-height:1.45}
+
+  .tf-trend{display:flex;align-items:flex-end;gap:10px;height:96px;padding:0 4px;border-bottom:1px solid #9aa5b3}
+  .tf-trend .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .tf-trend .c i{width:100%;background:#f3c9a2;border-radius:2px 2px 0 0}
+  .tf-trend .c.hl i{background:var(--tf)}
+  .tf-trend .c span{font-size:10.5px;font-weight:700;color:var(--ink);margin-bottom:2px}
+  .tf-x{display:flex;gap:10px;padding:2px 4px 0;font-size:10px;color:var(--muted)}
+  .tf-x div{flex:1;text-align:center}
+  .tf-cap{color:var(--muted);margin:5px 0 12px}
+  .en .tf-cap{font-size:11px}
+  .tc .tf-cap{font-size:11.5px}
+  .tf-cap b{color:var(--ink)}
+  .en .lend{font-size:11.5px}
+  .tc .lend{font-size:12px}
+  .lend .r{display:grid;align-items:center;gap:6px;height:18.5px}
+  .en .lend .r{grid-template-columns:128px 1fr 74px}
+  .tc .lend .r{grid-template-columns:110px 1fr 84px}
+  .lend .r .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lend .r .b{height:11px;background:var(--navy);border-radius:2px}
+  .lend .r .b.t3{background:var(--prop)}
+  .lend .r .v{text-align:right;color:var(--muted)}
+  .lend .r .v b{color:var(--ink)}
+  .conc{display:flex;height:22px;margin-top:8px;border-radius:3px;overflow:hidden;font-weight:700;color:#fff}
+  .en .conc{font-size:11px}
+  .tc .conc{font-size:11.5px}
+  .conc div{display:flex;align-items:center;justify-content:center;white-space:nowrap;font-size:10.5px}
+
+  .takeaways{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:12px 32px 0}
+  .tk{background:var(--bg);border-radius:6px;padding:9px 12px;border-top:3px solid var(--navy)}
+  .en .tk{font-size:11.8px;line-height:1.45}
+  .tc .tk{font-size:12.2px;line-height:1.5}
+  .en .tk h3{font-size:12.5px;color:var(--navy);margin-bottom:3px}
+  .tc .tk h3{font-size:13px;color:var(--navy);margin-bottom:3px}
+  .tk.p{border-top-color:var(--prop)}.tk.t{border-top-color:var(--tf)}.tk.c{border-top-color:var(--mfg)}
+  .en footer{padding:8px 32px 10px;font-size:9.5px;color:var(--muted);line-height:1.4}
+  .tc footer{padding:8px 32px 10px;font-size:10px;color:var(--muted);line-height:1.45}
+
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    html,body{background:#fff;overflow:visible;height:auto}
+    .langbar{display:none}
+    .slide{position:static;top:auto;left:auto;transform:none!important;box-shadow:none;page-break-after:always}
+    html[data-lang="en"] #slide-tc,
+    html[data-lang="tc"] #slide-en{display:none !important}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+
+</style>
+</head>
+<body>
+<div class="langbar" role="group" aria-label="Language">
+  <button type="button" id="btn-en" data-lang="en">English</button>
+  <span class="sep">/</span>
+  <button type="button" id="btn-tc" data-lang="tc">繁體中文</button>
+</div>
+<div class="slide en" id="slide-en">
+  <header>
+    <div>
+      <h1>HK Loan Book: Property Still Dominates, Trade Lending Gains Momentum</h1>
+      <div class="sub">Loans &amp; advances of authorized institutions by economic use &nbsp;|&nbsp; Position as at end-June 2026 &nbsp;|&nbsp; YoY vs end-June 2025</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Total loans</div><div class="v">HK$10.79tn</div><div class="d"><b>+6.2%</b> YoY</div></div>
+      <div class="kpi"><div class="l">For use in HK</div><div class="v">75.0%</div><div class="d">HK$8.10tn, <b>+5.8%</b></div></div>
+      <div class="kpi"><div class="l">Outside HK</div><div class="v">25.0%</div><div class="d">HK$2.69tn, <b>+7.4%</b></div></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Composition of total loans &amp; advances <span>(% of HK$10.79tn, end-Jun 2026)</span></h2>
+      <div class="brk-top">
+        <div style="width:75.04%">Loans for use in Hong Kong — 75.0%</div>
+        <div style="flex:1">Use outside HK — 25.0%</div>
+      </div>
+      <div class="bar">
+        <div style="width:30.33%;background:var(--prop)">Property lending*<br>30.3%</div>
+        <div style="width:4.04%;background:var(--tf)"></div>
+        <div style="width:3.37%;background:var(--mfg)"></div>
+        <div style="width:2.89%;background:var(--ws)"></div>
+        <div class="s-oth" style="width:34.40%;background:var(--oth)">Other uses in HK<br>34.4%</div>
+        <div class="s-out" style="flex:1">Outside HK<br>25.0%</div>
+      </div>
+      <div class="brk-bot"><div class="b"></div><div class="t">Trade financing + Manufacturing + Wholesale &amp; retail = 10.3% (Jun-25: 9.8%)</div></div>
+
+      <table>
+        <thead><tr><th>Focus segment</th><th>HK$ bn</th><th>Share of total</th><th>YoY growth</th><th>Share Δ YoY</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sw" style="background:var(--prop)"></span>Property lending*</td><td>3,272</td>
+            <td><div class="shr"><i style="width:91px;background:var(--prop)"></i>30.3%</div></td><td class="down">−1.9%</td><td class="down">−2.50 ppt</td></tr>
+          <tr class="sub"><td>Property development &amp; investment</td><td>1,314</td><td>12.2%</td><td class="down">−9.1%</td><td class="down">−2.05 ppt</td></tr>
+          <tr class="sub"><td>Purchase of other residential properties</td><td>1,958</td><td>18.2%</td><td class="up">+3.7%</td><td class="down">−0.45 ppt</td></tr>
+          <tr><td><span class="sw" style="background:var(--tf)"></span>Trade financing</td><td>436</td>
+            <td><div class="shr"><i style="width:12px;background:var(--tf)"></i>4.0%</div></td><td class="up">+15.9%</td><td class="up">+0.34 ppt</td></tr>
+          <tr><td><span class="sw" style="background:var(--mfg)"></span>Manufacturing</td><td>364</td>
+            <td><div class="shr"><i style="width:10px;background:var(--mfg)"></i>3.4%</div></td><td class="up">+11.9%</td><td class="up">+0.17 ppt</td></tr>
+          <tr><td><span class="sw" style="background:var(--ws)"></span>Wholesale &amp; retail trade</td><td>312</td>
+            <td><div class="shr"><i style="width:9px;background:var(--ws)"></i>2.9%</div></td><td class="up">+6.3%</td><td class="flat">0.00 ppt</td></tr>
+        </tbody>
+      </table>
+      <div class="note-oth">Other uses in HK (34.4%) mainly comprise financial concerns (9.6%), other private-purpose personal loans (7.4%), transport (3.1%), IT (2.1%), electricity &amp; gas (2.0%) and others.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Trade financing: rebounding, highly concentrated</h2>
+      <div class="tf-trend">
+        <div class="c"><span>485</span><i style="height:72px"></i></div>
+        <div class="c"><span>420</span><i style="height:62px"></i></div>
+        <div class="c"><span>365</span><i style="height:54px"></i></div>
+        <div class="c"><span>381</span><i style="height:57px"></i></div>
+        <div class="c"><span>376</span><i style="height:56px"></i></div>
+        <div class="c"><span>391</span><i style="height:58px"></i></div>
+        <div class="c hl"><span>436</span><i style="height:65px"></i></div>
+      </div>
+      <div class="tf-x"><div>Dec-21</div><div>Dec-22</div><div>Dec-23</div><div>Dec-24</div><div>Jun-25</div><div>Dec-25</div><div>Jun-26</div></div>
+      <div class="tf-cap">Trade financing balance, HK$ bn: <b>+20% from Dec-23 trough</b>, still <b>10% below Dec-21</b>; 84% denominated in foreign currency.</div>
+
+      <div style="font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:4px">Top 10 trade finance lenders, 2024 (advances, HK$ bn | market share)</div>
+      <div class="lend">
+        <div class="r"><div class="n">HSBC</div><div><div class="b t3" style="width:100%"></div></div><div class="v"><b>153.1</b> | 30.6%</div></div>
+        <div class="r"><div class="n">Standard Chartered</div><div><div class="b t3" style="width:41.5%"></div></div><div class="v"><b>63.5</b> | 12.7%</div></div>
+        <div class="r"><div class="n">Bank of China</div><div><div class="b t3" style="width:30.7%"></div></div><div class="v"><b>47.0</b> | 9.4%</div></div>
+        <div class="r"><div class="n">Hang Seng Bank</div><div><div class="b" style="width:19.9%"></div></div><div class="v"><b>30.5</b> | 6.1%</div></div>
+        <div class="r"><div class="n">DBS Bank</div><div><div class="b" style="width:18.2%"></div></div><div class="v"><b>27.8</b> | 5.6%</div></div>
+        <div class="r"><div class="n">United Overseas Bank</div><div><div class="b" style="width:11.0%"></div></div><div class="v"><b>16.9</b> | 3.4%</div></div>
+        <div class="r"><div class="n">Banco Santander</div><div><div class="b" style="width:7.1%"></div></div><div class="v"><b>10.8</b> | 2.2%</div></div>
+        <div class="r"><div class="n">BBVA</div><div><div class="b" style="width:6.8%"></div></div><div class="v"><b>10.4</b> | 2.1%</div></div>
+        <div class="r"><div class="n">BNP Paribas</div><div><div class="b" style="width:6.4%"></div></div><div class="v"><b>9.8</b> | 2.0%</div></div>
+        <div class="r"><div class="n">ICBC</div><div><div class="b" style="width:6.3%"></div></div><div class="v"><b>9.7</b> | 1.9%</div></div>
+      </div>
+      <div class="conc">
+        <div style="width:76%;background:var(--navy)">Top 10: 76%</div>
+        <div style="width:14%;background:#5b7da6">11–20: 14%</div>
+        <div style="flex:1;background:#b8c4d3;color:#2b3542">Other 10%</div>
+      </div>
+    </section>
+  </main>
+
+  <section class="takeaways">
+    <div class="tk p"><h3>1. Property remains the largest exposure, but is deleveraging</h3>
+      30.3% of total loans (HK$3.27tn), down 2.5 ppt YoY. Developer loans fell 9.1% while residential mortgages still grew 3.7%, so the property book is shifting from developers to households.</div>
+    <div class="tk t"><h3>2. Trade-related lending is the growth engine</h3>
+      Trade financing +15.9% YoY to HK$436bn, the fastest of all focus segments; manufacturing +11.9%, wholesale &amp; retail +6.3%. Combined share up to 10.3% of total loans, about one-third the size of property lending.</div>
+    <div class="tk c"><h3>3. Trade finance supply is concentrated</h3>
+      Top 10 lenders hold 76% of the market and the top 3 (HSBC, Standard Chartered, BOC) about 53%. HSBC and Hang Seng together account for about 37%, so supply depends heavily on a few large banking groups.</div>
+  </section>
+
+  <footer>
+    * Property lending = Property development &amp; investment + Loans to individuals for the purchase of other residential properties (excl. HOS/PSPS/TPS flats). Shares are % of total loans &amp; advances (incl. loans for use outside HK); the four focus segments do not overlap.
+    Sources: HKMA Monthly Statistical Bulletin (loans &amp; advances by economic use, authorized institutions); lender ranking from KPMG analysis of company disclosures and HKMA data (2024 market of HK$500.9bn, including local representative offices and aggregated by parent group, so not directly comparable with the HKMA series of HK$381bn at Dec-24).
+  </footer>
+</div>
+<div class="slide tc" id="slide-tc">
+  <header>
+    <div>
+      <h1>香港貸款結構：物業貸款仍居首位，貿易相關貸款增長提速</h1>
+      <div class="sub">認可機構貸款及墊款（按經濟用途劃分）&nbsp;|&nbsp; 截至2026年6月底 &nbsp;|&nbsp; 按年變動與2025年6月底比較</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">貸款總額</div><div class="v">10.79萬億港元</div><div class="d">按年 <b>+6.2%</b></div></div>
+      <div class="kpi"><div class="l">在香港使用</div><div class="v">75.0%</div><div class="d">8.10萬億，<b>+5.8%</b></div></div>
+      <div class="kpi"><div class="l">在香港以外使用</div><div class="v">25.0%</div><div class="d">2.69萬億，<b>+7.4%</b></div></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>貸款及墊款總額構成 <span>（佔10.79萬億港元的比例，2026年6月底）</span></h2>
+      <div class="brk-top">
+        <div style="width:75.04%">在香港使用的貸款 — 75.0%</div>
+        <div style="flex:1">在香港以外使用 — 25.0%</div>
+      </div>
+      <div class="bar">
+        <div style="width:30.33%;background:var(--prop)">物業貸款*<br>30.3%</div>
+        <div style="width:4.04%;background:var(--tf)"></div>
+        <div style="width:3.37%;background:var(--mfg)"></div>
+        <div style="width:2.89%;background:var(--ws)"></div>
+        <div class="s-oth" style="width:34.40%;background:var(--oth)">其他香港用途<br>34.4%</div>
+        <div class="s-out" style="flex:1">香港以外<br>25.0%</div>
+      </div>
+      <div class="brk-bot"><div class="b"></div><div class="t">貿易融資 + 製造業 + 批發及零售業 = 10.3%（2025年6月：9.8%）</div></div>
+
+      <table>
+        <thead><tr><th>重點類別</th><th>億港元</th><th>佔總額比例</th><th>按年增長</th><th>佔比按年變動</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sw" style="background:var(--prop)"></span>物業貸款*</td><td>32,722</td>
+            <td><div class="shr"><i style="width:91px;background:var(--prop)"></i>30.3%</div></td><td class="down">−1.9%</td><td class="down">−2.50個百分點</td></tr>
+          <tr class="sub"><td>物業發展及投資</td><td>13,139</td><td>12.2%</td><td class="down">−9.1%</td><td class="down">−2.05個百分點</td></tr>
+          <tr class="sub"><td>購買其他住宅樓宇</td><td>19,583</td><td>18.2%</td><td class="up">+3.7%</td><td class="down">−0.45個百分點</td></tr>
+          <tr><td><span class="sw" style="background:var(--tf)"></span>貿易融資</td><td>4,361</td>
+            <td><div class="shr"><i style="width:12px;background:var(--tf)"></i>4.0%</div></td><td class="up">+15.9%</td><td class="up">+0.34個百分點</td></tr>
+          <tr><td><span class="sw" style="background:var(--mfg)"></span>製造業</td><td>3,636</td>
+            <td><div class="shr"><i style="width:10px;background:var(--mfg)"></i>3.4%</div></td><td class="up">+11.9%</td><td class="up">+0.17個百分點</td></tr>
+          <tr><td><span class="sw" style="background:var(--ws)"></span>批發及零售業</td><td>3,121</td>
+            <td><div class="shr"><i style="width:9px;background:var(--ws)"></i>2.9%</div></td><td class="up">+6.3%</td><td class="flat">0.00個百分點</td></tr>
+        </tbody>
+      </table>
+      <div class="note-oth">其他香港用途（34.4%）主要包括：與財務及金融有關公司（9.6%）、其他私人用途個人貸款（7.4%）、運輸及運輸設備（3.1%）、資訊科技（2.1%）、電力及氣體燃料（2.0%）等。</div>
+    </section>
+
+    <section class="panel">
+      <h2>貿易融資：規模回升，供應高度集中</h2>
+      <div class="tf-trend">
+        <div class="c"><span>4,850</span><i style="height:72px"></i></div>
+        <div class="c"><span>4,197</span><i style="height:62px"></i></div>
+        <div class="c"><span>3,646</span><i style="height:54px"></i></div>
+        <div class="c"><span>3,812</span><i style="height:57px"></i></div>
+        <div class="c"><span>3,762</span><i style="height:56px"></i></div>
+        <div class="c"><span>3,908</span><i style="height:58px"></i></div>
+        <div class="c hl"><span>4,361</span><i style="height:65px"></i></div>
+      </div>
+      <div class="tf-x"><div>2021.12</div><div>2022.12</div><div>2023.12</div><div>2024.12</div><div>2025.06</div><div>2025.12</div><div>2026.06</div></div>
+      <div class="tf-cap">貿易融資餘額（億港元）：<b>較2023年底低位回升20%</b>，但仍<b>比2021年底低10%</b>；其中84%為外幣貸款。</div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px">2024年香港前10大貿易融資貸款機構（客戶墊款，億港元 | 市場份額）</div>
+      <div class="lend">
+        <div class="r"><div class="n">滙豐銀行</div><div><div class="b t3" style="width:100%"></div></div><div class="v"><b>1,531</b> | 30.6%</div></div>
+        <div class="r"><div class="n">渣打銀行</div><div><div class="b t3" style="width:41.5%"></div></div><div class="v"><b>635</b> | 12.7%</div></div>
+        <div class="r"><div class="n">中國銀行</div><div><div class="b t3" style="width:30.7%"></div></div><div class="v"><b>470</b> | 9.4%</div></div>
+        <div class="r"><div class="n">恒生銀行</div><div><div class="b" style="width:19.9%"></div></div><div class="v"><b>305</b> | 6.1%</div></div>
+        <div class="r"><div class="n">星展銀行</div><div><div class="b" style="width:18.2%"></div></div><div class="v"><b>278</b> | 5.6%</div></div>
+        <div class="r"><div class="n">大華銀行</div><div><div class="b" style="width:11.0%"></div></div><div class="v"><b>169</b> | 3.4%</div></div>
+        <div class="r"><div class="n">桑坦德銀行</div><div><div class="b" style="width:7.1%"></div></div><div class="v"><b>108</b> | 2.2%</div></div>
+        <div class="r"><div class="n">西班牙對外銀行</div><div><div class="b" style="width:6.8%"></div></div><div class="v"><b>104</b> | 2.1%</div></div>
+        <div class="r"><div class="n">法國巴黎銀行</div><div><div class="b" style="width:6.4%"></div></div><div class="v"><b>98</b> | 2.0%</div></div>
+        <div class="r"><div class="n">中國工商銀行</div><div><div class="b" style="width:6.3%"></div></div><div class="v"><b>97</b> | 1.9%</div></div>
+      </div>
+      <div class="conc">
+        <div style="width:76%;background:var(--navy)">前10大：76%</div>
+        <div style="width:14%;background:#5b7da6">11–20大 14%</div>
+        <div style="flex:1;background:#b8c4d3;color:#2b3542">其他10%</div>
+      </div>
+    </section>
+  </main>
+
+  <section class="takeaways">
+    <div class="tk p"><h3>一、物業仍是最大敞口，但正在去槓桿</h3>
+      物業貸款佔貸款總額30.3%（3.27萬億港元），佔比按年下降2.5個百分點。其中發展商貸款按年下降9.1%，住宅按揭仍增長3.7%，物業貸款結構正由發展商向住戶轉移。</div>
+    <div class="tk t"><h3>二、貿易相關貸款成為增長動力</h3>
+      貿易融資按年增長15.9%至4,361億港元，為各重點類別中增速最快；製造業增長11.9%，批發及零售業增長6.3%。三者合計佔貸款總額10.3%，約為物業貸款規模的三分之一。</div>
+    <div class="tk c"><h3>三、貿易融資供應高度集中</h3>
+      前10大機構佔市場76%，前3大（滙豐、渣打、中銀）約佔53%；滙豐與恒生合計約佔37%。貿易融資供應高度依賴少數大型銀行集團。</div>
+  </section>
+
+  <footer>
+    * 物業貸款 = 物業發展及投資 + 個人購買其他住宅樓宇貸款（不含居屋、私人參建居屋及租者置其屋計劃單位）。各項佔比均以貸款及墊款總額（含在香港以外使用的貸款）為分母，四個重點類別之間不重疊。
+    資料來源：香港金融管理局《金融數據月報》（認可機構按經濟用途劃分的貸款及墊款）；貸款機構排名來自畢馬威分析（公司財務披露及金管局數據）。畢馬威口徑的2024年市場規模為5,009億港元，含本地代表處並按母集團合併，與金管局2024年底3,812億港元的統計口徑不同，不宜直接比較。
+  </footer>
+</div>
+<script>
+
+  var BAR = 40;
+  var TITLES = {
+    en: "Hong Kong Loan Composition by Economic Use – End-June 2026",
+    tc: "香港貸款按經濟用途劃分構成 – 2026年6月底"
+  };
+  function fit(){
+    var availH = window.innerHeight - BAR;
+    var s = Math.min(window.innerWidth / 1280, availH / 720) * 0.98;
+    document.querySelectorAll(".slide").forEach(function(el){
+      el.style.top = (BAR + availH / 2) + "px";
+      el.style.transform = "translate(-50%,-50%) scale(" + s + ")";
+    });
+  }
+  function setLang(lang){
+    if (lang !== "en" && lang !== "tc") return;
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === "tc" ? "zh-HK" : "en";
+    document.title = TITLES[lang];
+    try { history.replaceState(null, "", "#" + lang); } catch (e) {}
+    fit();
+  }
+  document.querySelector(".langbar").addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-lang]");
+    if (!btn) return;
+    setLang(btn.getAttribute("data-lang"));
+  });
+  window.addEventListener("resize", fit);
+  var fromHash = location.hash.replace("#", "");
+  setLang(fromHash === "en" || fromHash === "tc" ? fromHash : "en");
+
+</script>
+</body>
+</html>
